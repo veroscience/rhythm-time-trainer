@@ -12,25 +12,21 @@
         }
         h1 {
             margin-bottom: 20px;
-            font-size: 1.8rem; /* Adjust heading size for smaller screens */
+            font-size: 1.8rem;
         }
         .controls {
             margin-bottom: 20px;
             display: flex;
-            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            flex-wrap: wrap;
             justify-content: center;
             align-items: center;
             gap: 10px;
-        }
-        label, select, input, button {
-            font-size: 1rem;
-            margin: 5px 0;
         }
         select, input, button {
             padding: 10px;
         }
         button {
-            background-color: rgb(82, 76, 93); /* Button color */
+            background-color: rgb(82, 76, 93);
             color: white;
             border: none;
             border-radius: 5px;
@@ -39,70 +35,40 @@
             padding: 10px 20px;
         }
         button:hover {
-            background-color: navy; /* Darker color on hover */
+            background-color: navy;
         }
         .beat-container {
             display: flex;
             justify-content: center;
             margin-top: 20px;
             flex-wrap: wrap;
-            gap: 5px; /* Minimal gap between cells */
+            gap: 5px;
         }
         .cell {
-            width: 40px; /* Smaller cells for mobile */
+            width: 40px;
             height: 40px;
             border: 1px solid #000;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.2rem; /* Adjust font size for arrows */
+            font-size: 1.2rem;
             color: #333;
         }
         .cell span {
             font-size: 1.6rem;
         }
-
-        /* Responsive Styling */
-        @media (max-width: 768px) {
-            body {
-                margin: 10px;
-            }
-            h1 {
-                font-size: 1.5rem;
-            }
-            .controls {
-                gap: 5px;
-            }
-            button {
-                font-size: 1rem;
-                padding: 8px 15px;
-            }
-            .cell {
-                width: 35px;
-                height: 35px;
-                font-size: 1rem;
-            }
-            .cell span {
-                font-size: 1.4rem;
-            }
+        .metronome-link {
+            margin-top: 20px;
+            font-size: 1rem;
         }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.2rem;
-            }
-            button {
-                font-size: 0.9rem;
-                padding: 6px 10px;
-            }
-            .cell {
-                width: 30px;
-                height: 30px;
-                font-size: 0.9rem;
-            }
-            .cell span {
-                font-size: 1.2rem;
-            }
+        .metronome-link a {
+            color: blue;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+        .metronome-link a:hover {
+            text-decoration: none;
+            color: darkblue;
         }
     </style>
 </head>
@@ -121,6 +87,10 @@
         <button id="update">Update</button>
     </div>
     <div id="beat-line" class="beat-container"></div>
+    <div class="metronome-link">
+        Need a metronome? Try the 
+        <a href="https://g.co/kgs/H4AjBXU" target="_blank" rel="noopener noreferrer">Google Metronome</a>.
+    </div>
 
     <script>
         const beatsDropdown = document.getElementById('beats');
