@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, initial-scale=1">
-    <title>Rhythm Time Trainer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rhythm Time Trainer with Metronome</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -25,22 +25,42 @@
         select, input, button {
             padding: 10px;
         }
-        button {
+        .play-button {
             background-color: rgb(82, 76, 93);
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-size: 1.2rem;
-            padding: 10px 20px;
+            padding: 5px 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
-        button:hover {
+        .play-button:hover {
+            background-color: navy;
+        }
+
+        .button {
+            background-color: rgb(82, 76, 93);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 5px 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .button:hover {
             background-color: navy;
         }
         .beat-container {
             display: flex;
             justify-content: center;
             margin-top: 20px;
+            margin-bottom: 40px;
             flex-wrap: wrap;
             gap: 5px;
         }
@@ -57,39 +77,32 @@
         .cell span {
             font-size: 1.6rem;
         }
-        .metronome-link {
+        .metronome-controls {
             margin-top: 20px;
-            font-size: 1rem;
-        }
-        .metronome-link a {
-            color: blue;
-            text-decoration: underline;
-            font-weight: bold;
-        }
-        .metronome-link a:hover {
-            text-decoration: none;
-            color: darkblue;
         }
     </style>
 </head>
 <body>
-    <h1>Rhythm Time Trainer</h1>
+    <h1>Rhythm Time Trainer with Metronome</h1>
     <div class="controls">
         <label for="beats">Select Beats:</label>
-        <select id="beats">
+        <select id="beats" style="margin-right:35px">
             <option value="8">8</option>
             <option value="12">12</option>
             <option value="16">16</option>
         </select>
         <label for="active-ratio">Active Beats Ratio:</label>
-        <input type="range" id="active-ratio" min="0" max="1" step="0.1" value="1">
-        <span id="active-ratio-value">100%</span>
+        <input type="range" id="active-ratio" min="0" max="1" step="0.1" value="0.8" >
+        <span id="active-ratio-value" style="margin-right:35px">80%</span>
         <button id="update">Update</button>
     </div>
     <div id="beat-line" class="beat-container"></div>
-    <div class="metronome-link">
-        Need a metronome? Try the 
-        <a href="https://g.co/kgs/H4AjBXU" target="_blank" rel="noopener noreferrer">Google Metronome</a>.
+
+    <!-- Metronome Section -->
+    <div class="metronome-controls">
+        <label for="tempo">Tempo (BPM):</label>
+        <input type="number" id="tempo" value="100" min="40" max="240">
+        <button id="play-pause-button" class="play-button">▶</button>
     </div>
 
     <script>
@@ -98,6 +111,13 @@
         const activeRatioValue = document.getElementById('active-ratio-value');
         const updateButton = document.getElementById('update');
         const beatLine = document.getElementById('beat-line');
+
+        const tempoInput = document.getElementById('tempo');
+        const playPauseButton = document.getElementById('play-pause-button');
+
+        let isPlaying = false; // State of the metronome
+        let metronomeInterval;
+        const tickSound = new Audio('click.wav'); // Use your local `click.wav` file here
 
         // Update the percentage display for active ratio
         activeRatioSlider.addEventListener('input', () => {
@@ -126,6 +146,36 @@
 
         updateButton.addEventListener('click', generateBeatLine);
         generateBeatLine();
+
+        // Toggle play/pause functionality
+        function toggleMetronome() {
+            if (isPlaying) {
+                stopMetronome();
+            } else {
+                startMetronome();
+            }
+        }
+
+        function startMetronome() {
+            const tempo = parseInt(tempoInput.value);
+            const interval = 60000 / tempo;
+
+            metronomeInterval = setInterval(() => {
+                tickSound.currentTime = 0; // Reset audio to start
+                tickSound.play(); // Play ticking sound
+            }, interval);
+
+            isPlaying = true;
+            playPauseButton.textContent = '⏸'; // Change button to pause symbol
+        }
+
+        function stopMetronome() {
+            clearInterval(metronomeInterval);
+            isPlaying = false;
+            playPauseButton.textContent = '▶'; // Change button to play symbol
+        }
+
+        playPauseButton.addEventListener('click', toggleMetronome);
     </script>
 </body>
 </html>
